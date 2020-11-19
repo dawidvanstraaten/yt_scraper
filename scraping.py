@@ -53,12 +53,14 @@ def scrape_channel_videos(driver, channel_name):
 
 def change_date_format(date_str):
     if 'Sept' in date_str:
-        new_date_str = date_str.replace('Sept', 'Sep')
-        return datetime.strptime(new_date_str, '%d %b %Y').date()
+        date_str = date_str.replace('Sept', 'Sep')
 
     if 'Premiered on' in date_str:
         new_date_str = re.findall('Premiered on ([0-9]+\s[A-Za-z]+\s[0-9]+)', date_str)[0]
-        return datetime.strptime(new_date_str, '%d %B %Y').date()
+        return datetime.strptime(new_date_str, '%d %b %Y').date()
+    elif 'Streamed live on' in date_str:
+        new_date_str = re.findall('Streamed live on ([0-9]+\s[A-Za-z]+\s[0-9]+)', date_str)[0]
+        return datetime.strptime(new_date_str, '%d %b %Y').date()
     else:
         return datetime.strptime(date_str, '%d %b %Y').date()
 
