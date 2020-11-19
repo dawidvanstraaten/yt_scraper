@@ -4,6 +4,7 @@ from selenium.webdriver.support import expected_conditions as EC
 import time
 import re
 from datetime import datetime
+import requests
 
 
 def get_info(attribute_text):
@@ -18,8 +19,13 @@ def get_info(attribute_text):
         return int(likes[0])
 
 
-def scrape_channel_videos(driver):
-    driver.get('https://www.youtube.com/c/DavidBombal/videos')
+def channel_exists(channel_name):
+    r = requests.get(f'https://www.youtube.com/c/{channel_name}/videos')
+    return r.status_code
+
+
+def scrape_channel_videos(driver, channel_name):
+    driver.get(f'https://www.youtube.com/c/{channel_name}/videos')
 
     new_height = 0
     while True:
